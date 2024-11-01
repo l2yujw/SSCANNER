@@ -55,7 +55,7 @@ public class SecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         // 경로별 인가
         http.authorizeHttpRequests((authorize) ->
-                authorize.requestMatchers("/login", "/", "health", "api/users/join", "/sms/**", "/api/users/reset-password", "/api/users/find-id", "/reissue").permitAll()
+                authorize.requestMatchers("/login", "/", "health", "api/users/join", "/sms/**", "/api/users/reset-password", "/api/users/find-id", "/reissue", "/actuator/**").permitAll()
                         .requestMatchers("/api/admin/boards/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
         );
