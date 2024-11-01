@@ -3,6 +3,7 @@ package com.sscanner.team.gifticon.service;
 import com.sscanner.team.barcode.entity.Barcode;
 import com.sscanner.team.barcode.repository.BarcodeRepository;
 import com.sscanner.team.gifticon.responsedto.GifticonResponseDto;
+import com.sscanner.team.global.utils.UserUtils;
 import com.sscanner.team.products.entity.Product;
 import com.sscanner.team.products.service.ProductImgService;
 import com.sscanner.team.products.service.ProductService;
@@ -19,8 +20,10 @@ public class GifticonService {
     private final BarcodeRepository barcodeRepository;
     private final ProductService productService;
     private final ProductImgService productImgService;
+    private final UserUtils userUtils;
 
-    public List<GifticonResponseDto> getGifticonsByUserId(String userId) {
+    public List<GifticonResponseDto> getGifticonsByUserId() {
+        String userId = userUtils.getUser().getUserId();
         List<Barcode> barcodes = barcodeRepository.findAllByUserId(userId);
 
         List<Long> productIds = extractProductIds(barcodes);
@@ -46,4 +49,3 @@ public class GifticonService {
         return GifticonResponseDto.of(product, representativeProductImgUrl, barcode.getBarcodeUrl());
     }
 }
-

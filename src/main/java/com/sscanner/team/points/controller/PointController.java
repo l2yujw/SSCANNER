@@ -15,9 +15,9 @@ public class PointController {
 
     private final PointService pointService;
 
-    @GetMapping("/{userId}")
-    public ApiResponse<PointWithUserIdResponseDto> getUserPoints(@PathVariable String userId) {
-        PointWithUserIdResponseDto pointWithUserIdResponseDto = pointService.getCachedPoint(userId);
+    @GetMapping("/user")
+    public ApiResponse<PointWithUserIdResponseDto> getUserPoints() {
+        PointWithUserIdResponseDto pointWithUserIdResponseDto = pointService.getCachedPoint();
         return ApiResponse.ok(200, pointWithUserIdResponseDto, "사용자 포인트 조회 성공");
     }
 

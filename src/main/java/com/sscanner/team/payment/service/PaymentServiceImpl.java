@@ -2,6 +2,7 @@ package com.sscanner.team.payment.service;
 
 import com.sscanner.team.barcode.entity.Barcode;
 import com.sscanner.team.barcode.service.BarcodeService;
+import com.sscanner.team.global.utils.UserUtils;
 import com.sscanner.team.payment.entity.PaymentRecord;
 import com.sscanner.team.payment.responsedto.PointPaymentResponseDto;
 import com.sscanner.team.points.service.PointService;
@@ -27,11 +28,12 @@ public class PaymentServiceImpl implements PaymentService {
     private final PointService pointService;
     private final PaymentRepository paymentRepository;
     private final BarcodeService barcodeService;
+    private final UserUtils userUtils;
 
     @Transactional
     @Override
     public PointPaymentResponseDto processPointPayment(PointPaymentRequestDto pointPaymentRequestDto) {
-        String userId = pointPaymentRequestDto.userId();
+        String userId = userUtils.getUser().getUserId();
         Long productId = pointPaymentRequestDto.productId();
 
         Product product = productService.findById(productId);
@@ -41,7 +43,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         UserPoint userPoint = pointService.findByUserId(userId);
 
-        Barcode barcode = barcodeService.createAndSaveBarcode(userId, productId);
+        Barcode barcode = barcodeService.createAndSaveBarcode(productId);
 
         PaymentRecord paymentRecord = createPaymentRecord(userPoint, product, productPrice, barcode);
         paymentRepository.save(paymentRecord);

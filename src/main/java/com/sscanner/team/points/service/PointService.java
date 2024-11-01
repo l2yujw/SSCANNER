@@ -7,7 +7,7 @@ import com.sscanner.team.points.dto.responsedto.PointWithUserIdResponseDto;
 import java.util.Set;
 
 public interface PointService {
-    PointWithUserIdResponseDto getCachedPoint(String userId);
+    PointWithUserIdResponseDto getCachedPoint();
     PointWithUserIdResponseDto addPoint(PointRequestDto pointRequestDto);
     Integer fetchCachedPoint(String userId);
     UserPoint findByUserId(String userId);

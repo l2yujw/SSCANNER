@@ -1,5 +1,6 @@
 package com.sscanner.team.points.service;
 
+import com.sscanner.team.global.utils.UserUtils;
 import com.sscanner.team.points.entity.UserPoint;
 import com.sscanner.team.global.exception.BadRequestException;
 import com.sscanner.team.global.exception.ExceptionCode;
@@ -7,7 +8,9 @@ import com.sscanner.team.points.redis.PointRedisService;
 import com.sscanner.team.points.repository.PointRepository;
 import com.sscanner.team.points.dto.requestdto.PointRequestDto;
 import com.sscanner.team.points.dto.responsedto.PointWithUserIdResponseDto;
+
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +19,17 @@ import java.util.Set;
 import static com.sscanner.team.points.common.PointConstants.*;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class PointServiceImpl implements PointService {
 
     private final PointRedisService pointRedisService;
     private final PointRepository pointRepository;
+    private final UserUtils userUtils;
 
     @Override
-    public PointWithUserIdResponseDto getCachedPoint(String userId) {
+    public PointWithUserIdResponseDto getCachedPoint() {
+        String userId = getUserId();
         Integer point = fetchAndCacheUserPoint(userId);
         return PointWithUserIdResponseDto.of(userId, point);
     }
@@ -31,7 +37,7 @@ public class PointServiceImpl implements PointService {
     @Transactional
     @Override
     public PointWithUserIdResponseDto addPoint(PointRequestDto pointRequestDto) {
-        String userId = pointRequestDto.userId();
+        String userId = getUserId();
         Integer point = pointRequestDto.point();
 
         fetchAndCacheUserPoint(userId);
@@ -91,6 +97,10 @@ public class PointServiceImpl implements PointService {
     @Override
     public void resetDailyPointsInCache() {
         pointRedisService.resetDailyPoints();
+    }
+
+    private String getUserId() {
+        return userUtils.getUser().getUserId();
     }
 
     private Integer fetchAndCacheUserPoint(String userId) {

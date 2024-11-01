@@ -5,6 +5,7 @@ import com.sscanner.team.barcode.entity.Barcode;
 import com.sscanner.team.barcode.repository.BarcodeRepository;
 import com.sscanner.team.barcode.responsedto.BarcodeResponseDto;
 import com.sscanner.team.global.common.service.ImageService;
+import com.sscanner.team.global.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,14 @@ public class BarcodeServiceImpl implements BarcodeService {
     private final BarcodeRepository barcodeRepository;
     private final ImageService imageService;
     private final BarcodeGenerator barcodeGenerator;
+    private final UserUtils userUtils;
 
     @Override
     @Transactional
-    public Barcode createAndSaveBarcode(String userId, Long productId) {
+    public Barcode createAndSaveBarcode(Long productId) {
+
+        String userId = userUtils.getUser().getUserId();
+
         String barcodeText = generateBarcodeText(userId, productId);
 
         String barcodeImage = generateBarcodeImage(barcodeText);
@@ -34,7 +39,9 @@ public class BarcodeServiceImpl implements BarcodeService {
     }
 
     @Override
-    public List<BarcodeResponseDto> findBarcodesByUserId(String userId) {
+    public List<BarcodeResponseDto> findBarcodesByUserId() {
+        String userId = userUtils.getUser().getUserId();
+
         return barcodeRepository.findAllByUserId(userId).stream()
                 .map(BarcodeResponseDto::from)
                 .toList();

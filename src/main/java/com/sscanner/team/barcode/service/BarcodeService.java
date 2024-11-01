@@ -6,6 +6,6 @@ import com.sscanner.team.barcode.responsedto.BarcodeResponseDto;
 import java.util.List;
 
 public interface BarcodeService {
-    Barcode createAndSaveBarcode(String userId, Long productId);
-    List<BarcodeResponseDto> findBarcodesByUserId(String userId);
+    Barcode createAndSaveBarcode(Long productId);
+    List<BarcodeResponseDto> findBarcodesByUserId();
 }
