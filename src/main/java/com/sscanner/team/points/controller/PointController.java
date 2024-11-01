@@ -20,10 +20,4 @@ public class PointController {
         PointWithUserIdResponseDto pointWithUserIdResponseDto = pointService.getCachedPoint();
         return ApiResponse.ok(200, pointWithUserIdResponseDto, "사용자 포인트 조회 성공");
     }
-
-    @PostMapping("/add")
-    public ApiResponse<PointWithUserIdResponseDto> addUserPoints(@RequestBody PointRequestDto pointRequestDto) {
-        PointWithUserIdResponseDto response = pointService.addPoint(pointRequestDto);
-        return ApiResponse.ok(201, response, "포인트가 성공적으로 추가되었습니다.");
-    }
 }

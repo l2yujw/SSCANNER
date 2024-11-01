@@ -36,8 +36,7 @@ public class PointServiceImpl implements PointService {
 
     @Transactional
     @Override
-    public PointWithUserIdResponseDto addPoint(PointRequestDto pointRequestDto) {
-        String userId = getUserId();
+    public PointWithUserIdResponseDto addPoint(String userId, PointRequestDto pointRequestDto) {
         Integer point = pointRequestDto.point();
 
         fetchAndCacheUserPoint(userId);

@@ -25,7 +25,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.sscanner.team.global.exception.ExceptionCode.*;
 
@@ -168,6 +170,25 @@ public class BoardServiceImpl implements BoardService{
             List<BoardImg> boardImgs = boardImgService.getBoardImgs(board.getId());
             return AdminBoardInfoResponseDTO.of(board, boardImgs.get(0).getBoardImgUrl());
         });
+    }
+
+    @Override
+    public List<BoardInfoResponseDTO> getMyBoards() {
+        User user = userUtils.getUser();
+
+        return boardRepository.findAllByUser(user).stream()
+                .map(board -> {
+                    List<BoardImg> boardImgs = boardImgService.getBoardImgs(board.getId());
+                    return BoardInfoResponseDTO.of(board, boardImgs.get(0).getBoardImgUrl());
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Board getBoardFetchUser(Long boardId) {
+        return boardRepository
+                .findBoardByIdFetchUser(boardId)
+                .orElseThrow(() -> new BadRequestException(NOT_EXIST_BOARD));
     }
 
     private void isMatchAuthor(User user, Board board) {

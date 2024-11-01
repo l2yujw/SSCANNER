@@ -12,6 +12,8 @@ import com.sscanner.team.board.service.BoardService;
 import com.sscanner.team.board.type.ApprovalStatus;
 import com.sscanner.team.board.type.BoardCategory;
 import com.sscanner.team.global.exception.BadRequestException;
+import com.sscanner.team.points.dto.requestdto.PointRequestDto;
+import com.sscanner.team.points.service.PointService;
 import com.sscanner.team.trashcan.entity.Trashcan;
 import com.sscanner.team.trashcan.entity.TrashcanImg;
 import com.sscanner.team.trashcan.service.TrashcanImgService;
@@ -36,6 +38,7 @@ public class AdminServiceImpl implements AdminService {
     private final BoardImgService boardImgService;
     private final TrashcanService trashcanService;
     private final TrashcanImgService trashcanImgService;
+    private final PointService pointService;
 
     @Override
     public AdminBoardListResponseDTO getBoards(ApprovalStatus approvalStatus, TrashCategory trashCategory,
@@ -86,6 +89,14 @@ public class AdminServiceImpl implements AdminService {
         }
 
         board.changeApprovalStatus(approvalStatus);
+    }
+
+    @Transactional
+    @Override
+    public void givePoints(Long boardId, PointRequestDto pointRequestDto) {
+        Board board = boardService.getBoardFetchUser(boardId);
+
+        pointService.addPoint(board.getUser().getUserId(), pointRequestDto);
     }
 
     private void processBoardApproval(Board board, String chosenImgUrl) {

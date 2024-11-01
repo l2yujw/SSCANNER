@@ -50,7 +50,7 @@ public class ImageServiceImpl implements ImageService{
 
         uploadS3(file, fileName); // S3에 이미지 업로드
 
-        return baseUrl + "/" + fileName;
+        return baseUrl + fileName;
     }
 
     /**

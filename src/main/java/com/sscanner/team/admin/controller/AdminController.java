@@ -8,7 +8,9 @@ import com.sscanner.team.admin.service.AdminService;
 import com.sscanner.team.board.type.ApprovalStatus;
 import com.sscanner.team.board.type.BoardCategory;
 import com.sscanner.team.global.common.response.ApiResponse;
+import com.sscanner.team.points.dto.requestdto.PointRequestDto;
 import com.sscanner.team.trashcan.type.TrashCategory;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,9 +52,18 @@ public class AdminController {
     @PatchMapping("/boards/{boardId}")
     public ApiResponse<?> reflectBoard(
             @PathVariable Long boardId,
-            @RequestBody AdminBoardRequestDTO adminBoardRequestDTO) {
+            @Valid @RequestBody AdminBoardRequestDTO adminBoardRequestDTO) {
         adminService.reflectBoard(boardId, adminBoardRequestDTO);
 
         return ApiResponse.ok(200, "관리자 신고 게시글 반영 완료!!");
+    }
+
+    @PostMapping("/points/{boardId}")
+    public ApiResponse<?> givePoints(
+            @PathVariable Long boardId,
+            @Valid @RequestBody PointRequestDto pointRequestDto) {
+        adminService.givePoints(boardId, pointRequestDto);
+
+        return ApiResponse.ok(200, "포인트 지급 완료!!");
     }
 }

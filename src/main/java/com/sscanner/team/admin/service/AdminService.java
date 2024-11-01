@@ -6,6 +6,7 @@ import com.sscanner.team.admin.responsedto.AdminEctBoardResponseDTO;
 import com.sscanner.team.admin.responsedto.AdminModifyBoardResponseDTO;
 import com.sscanner.team.board.type.ApprovalStatus;
 import com.sscanner.team.board.type.BoardCategory;
+import com.sscanner.team.points.dto.requestdto.PointRequestDto;
 import com.sscanner.team.trashcan.type.TrashCategory;
 
 public interface AdminService {
@@ -14,4 +15,5 @@ public interface AdminService {
     AdminModifyBoardResponseDTO getModifyBoard(Long boardId);
     AdminEctBoardResponseDTO getEctBoard(Long boardId);
     void reflectBoard(Long boardId, AdminBoardRequestDTO adminBoardRequestDTO);
+    void givePoints(Long boardId, PointRequestDto pointRequestDto);
 }

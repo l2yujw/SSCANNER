@@ -2,6 +2,7 @@ package com.sscanner.team.board.controller;
 
 import com.sscanner.team.board.requestdto.BoardCreateRequestDTO;
 import com.sscanner.team.board.requestdto.BoardUpdateRequestDTO;
+import com.sscanner.team.board.responsedto.BoardInfoResponseDTO;
 import com.sscanner.team.board.responsedto.BoardListResponseDTO;
 import com.sscanner.team.board.responsedto.BoardLocationInfoResponseDTO;
 import com.sscanner.team.board.responsedto.BoardResponseDTO;
@@ -70,5 +71,12 @@ public class BoardController {
         BoardLocationInfoResponseDTO boardLocationInfo = boardService.getBoardLocationInfo(boardId);
 
         return ApiResponse.ok(200, boardLocationInfo, "신고 게시글 위치 정보 조회 완료!!");
+    }
+
+    @GetMapping("/my")
+    public ApiResponse<List<BoardInfoResponseDTO>> readMyBoards() {
+        List<BoardInfoResponseDTO> myBoards = boardService.getMyBoards();
+
+        return ApiResponse.ok(200, myBoards, "내 신고 게시글 목록 조회 완료!!");
     }
 }

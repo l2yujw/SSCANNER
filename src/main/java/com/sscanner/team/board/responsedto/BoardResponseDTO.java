@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public record BoardResponseDTO(
     Long id,
+    String roadNameAddress,
+    String detailedAddress,
     BoardCategory boardCategory,
     String significant,
     Long trashcanId,
@@ -21,6 +23,8 @@ public record BoardResponseDTO(
     public static BoardResponseDTO of(Board board, List<BoardImg> boardImgs) {
         return new BoardResponseDTO(
                 board.getId(),
+                board.getRoadNameAddress(),
+                board.getDetailedAddress(),
                 board.getBoardCategory(),
                 board.getSignificant(),
                 board.getTrashcanId(),

@@ -4,6 +4,7 @@ import com.sscanner.team.admin.responsedto.AdminBoardInfoResponseDTO;
 import com.sscanner.team.board.entity.Board;
 import com.sscanner.team.board.requestdto.BoardCreateRequestDTO;
 import com.sscanner.team.board.requestdto.BoardUpdateRequestDTO;
+import com.sscanner.team.board.responsedto.BoardInfoResponseDTO;
 import com.sscanner.team.board.responsedto.BoardListResponseDTO;
 import com.sscanner.team.board.responsedto.BoardLocationInfoResponseDTO;
 import com.sscanner.team.board.responsedto.BoardResponseDTO;
@@ -29,4 +30,6 @@ public interface BoardService {
     Board getBoard(Long boardId);
     Page<AdminBoardInfoResponseDTO> getBoardsForAdmin(ApprovalStatus approvalStatus, TrashCategory trashCategory,
                                                       BoardCategory boardCategory, Integer page, Integer size);
+    List<BoardInfoResponseDTO> getMyBoards();
+    Board getBoardFetchUser(Long boardId);
 }

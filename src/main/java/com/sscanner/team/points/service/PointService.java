@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface PointService {
     PointWithUserIdResponseDto getCachedPoint();
-    PointWithUserIdResponseDto addPoint(PointRequestDto pointRequestDto);
+    PointWithUserIdResponseDto addPoint(String userId, PointRequestDto pointRequestDto);
     Integer fetchCachedPoint(String userId);
     UserPoint findByUserId(String userId);
     void markUserForBackup(String userId);
