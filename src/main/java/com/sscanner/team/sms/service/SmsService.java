@@ -5,8 +5,11 @@ import com.sscanner.team.sms.requestdto.SmsVerifyRequestDto;
 
 public interface SmsService {
 
-    //sms 전송
-    void sendSms(SmsRequestDto smsRequestDto);
+    // 가입되지 않은 사용자에게 SMS 전송
+    void sendSmsForUnregisteredUser(SmsRequestDto smsRequestDto);
+
+    // 가입된 사용자에게 SMS 전송
+    void sendSmsForRegisteredUser(SmsRequestDto smsRequestDto);
 
     // 인증 코드를 검증하는 메서드
     boolean verifyCode(SmsVerifyRequestDto smsVerifyDto);

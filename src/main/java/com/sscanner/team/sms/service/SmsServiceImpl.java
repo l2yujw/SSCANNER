@@ -22,7 +22,7 @@ public class SmsServiceImpl implements SmsService {
     private static final SecureRandom secureRandom = new SecureRandom();
 
     @Override
-    public void sendSms(SmsRequestDto smsRequestDto) {
+    public void sendSmsForUnregisteredUser(SmsRequestDto smsRequestDto) {
         String phoneNum = smsRequestDto.phoneNum();
 
         if (userRepository.findByPhone(phoneNum).isPresent()) {
@@ -37,8 +37,26 @@ public class SmsServiceImpl implements SmsService {
 
         // 인증 코드 저장
         smsRepository.createSmsCertification(phoneNum, codeAsString);
-
     }
+
+    @Override
+    public void sendSmsForRegisteredUser(SmsRequestDto smsRequestDto) {
+        String phoneNum = smsRequestDto.phoneNum();
+
+        if (userRepository.findByPhone(phoneNum).isEmpty()) {
+            throw new BadRequestException(ExceptionCode.USER_NOT_FOUND_BY_PHONE);
+        }
+
+        int certificationCode = secureRandom.nextInt(900000) + 100000; // 100000 ~ 999999 범위의 난수
+        String codeAsString = Integer.toString(certificationCode);
+
+        // SMS 전송
+        smsCertificationUtil.sendSMS(phoneNum, codeAsString);
+
+        // 인증 코드 저장
+        smsRepository.createSmsCertification(phoneNum, codeAsString);
+    }
+
 
     @Override
     public boolean verifyCode(SmsVerifyRequestDto smsVerifyDto) {

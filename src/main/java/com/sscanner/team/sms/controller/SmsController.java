@@ -20,9 +20,15 @@ public class SmsController {
 
     private final SmsServiceImpl smsServiceImpl;
 
-    @PostMapping("/send")
-    public ApiResponse<Void> sendSMS(@RequestBody @Valid SmsRequestDto smsRequestDto){
-        smsServiceImpl.sendSms(smsRequestDto);
+    @PostMapping("/send-for-unregistered")
+    public ApiResponse<Void> sendSmsForUnregisteredUser(@RequestBody @Valid SmsRequestDto smsRequestDto){
+        smsServiceImpl.sendSmsForUnregisteredUser(smsRequestDto);
+        return new ApiResponse<>(200,"문자를 전송했습니다",null);
+    }
+
+    @PostMapping("/send-for-registered")
+    public ApiResponse<Void> sendSmsForRegisteredUser(@RequestBody @Valid SmsRequestDto smsRequestDto){
+        smsServiceImpl.sendSmsForRegisteredUser(smsRequestDto);
         return new ApiResponse<>(200,"문자를 전송했습니다",null);
     }
 

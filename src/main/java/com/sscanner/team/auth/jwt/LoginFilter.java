@@ -2,6 +2,7 @@ package com.sscanner.team.auth.jwt;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sscanner.team.auth.constant.JwtConstants;
 import com.sscanner.team.auth.repository.RedisRefreshTokenRepository;
 import com.sscanner.team.user.requestdto.UserLoginRequestDto;
 import jakarta.servlet.FilterChain;
@@ -19,6 +20,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StreamUtils;
+import com.sscanner.team.auth.constant.JwtConstants;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -64,10 +66,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String authority = authorities.iterator().next().getAuthority();
 
         // 토큰 생성 및 저장
-        String access = jwtUtil.createJwt("access", email, authority, 2000000L);
-        String refresh = jwtUtil.createJwt("refresh", email, authority, 86400000L);
+        String access = jwtUtil.createJwt("access", email, authority, JwtConstants.ACCESS_TOKEN_EXPIRATION);
+        String refresh = jwtUtil.createJwt("refresh", email, authority, JwtConstants.REFRESH_TOKEN_EXPIRATION);
 
-        refreshRepository.save(email, refresh, 86400000L);
+        refreshRepository.save(email, refresh, JwtConstants.REFRESH_TOKEN_EXPIRATION);
 
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(email, null, authorities));
 
