@@ -12,7 +12,7 @@ public class SmsRepository {
 
     private static final String PREFIX = "sms:"; // 키
     private final StringRedisTemplate stringRedisTemplate;
-    private static final int LIMIT_TIME = 60 * 120; // 유효시간 (2분)
+    private static final int LIMIT_TIME = 60 * 2; // 유효시간 (2분)
 
 
     // 인증 정보 저장
