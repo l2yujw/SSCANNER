@@ -1,12 +1,15 @@
 package com.sscanner.team.points.service;
 
+import com.sscanner.team.points.common.InitialPoint;
 import com.sscanner.team.points.entity.UserPoint;
 import com.sscanner.team.points.dto.requestdto.PointRequestDto;
 import com.sscanner.team.points.dto.responsedto.PointWithUserIdResponseDto;
+import com.sscanner.team.user.entity.User;
 
 import java.util.Set;
 
 public interface PointService {
+    void save(User user, InitialPoint initialPoint);
     PointWithUserIdResponseDto getCachedPoint();
     PointWithUserIdResponseDto addPoint(String userId, PointRequestDto pointRequestDto);
     Integer fetchCachedPoint(String userId);

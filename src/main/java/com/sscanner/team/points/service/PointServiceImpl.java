@@ -1,6 +1,7 @@
 package com.sscanner.team.points.service;
 
 import com.sscanner.team.global.utils.UserUtils;
+import com.sscanner.team.points.common.InitialPoint;
 import com.sscanner.team.points.entity.UserPoint;
 import com.sscanner.team.global.exception.BadRequestException;
 import com.sscanner.team.global.exception.ExceptionCode;
@@ -9,12 +10,14 @@ import com.sscanner.team.points.repository.PointRepository;
 import com.sscanner.team.points.dto.requestdto.PointRequestDto;
 import com.sscanner.team.points.dto.responsedto.PointWithUserIdResponseDto;
 
+import com.sscanner.team.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
+import java.util.UUID;
 
 import static com.sscanner.team.points.common.PointConstants.*;
 
@@ -26,6 +29,18 @@ public class PointServiceImpl implements PointService {
     private final PointRedisService pointRedisService;
     private final PointRepository pointRepository;
     private final UserUtils userUtils;
+
+    @Transactional
+    @Override
+    public void save(User user, InitialPoint initialPoint) {
+        UserPoint userPoint = UserPoint.builder()
+                .id(UUID.randomUUID())
+                .user(user)
+                .point(initialPoint.getPoint())
+                .build();
+        pointRepository.save(userPoint);
+        cacheUserPoint(user.getUserId(), initialPoint.getPoint());
+    }
 
     @Override
     public PointWithUserIdResponseDto getCachedPoint() {

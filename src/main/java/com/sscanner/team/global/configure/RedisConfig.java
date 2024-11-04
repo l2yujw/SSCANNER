@@ -1,4 +1,4 @@
-package com.sscanner.team.points.config;
+package com.sscanner.team.global.configure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
