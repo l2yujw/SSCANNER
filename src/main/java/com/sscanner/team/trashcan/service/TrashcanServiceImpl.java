@@ -1,5 +1,6 @@
 package com.sscanner.team.trashcan.service;
 
+import com.sscanner.team.global.configure.aop.TimeTrace;
 import com.sscanner.team.global.exception.BadRequestException;
 import com.sscanner.team.global.utils.GeoUtils;
 import com.sscanner.team.trashcan.entity.Trashcan;
@@ -76,12 +77,21 @@ public class TrashcanServiceImpl implements TrashcanService {
         return convertToTrashcanResponses(trashcans);
     }
 
+    @Override
+    public List<Trashcan> findAllTrashcans() {
+
+        return trashcanRepository.findAllByDeletedAtIsNull();
+    }
+
+
+
+    @TimeTrace
     private List<Trashcan> getTrashcansByLatAndLon(BigDecimal minLat, BigDecimal maxLat, BigDecimal minLon, BigDecimal maxLon) {
         return trashcanRepository.findTrashcansWithinBoundingBox(minLat, maxLat, minLon, maxLon)
                 .orElseThrow(() -> new BadRequestException(NOT_FOUND_NEARBY_TRASHCANS));
     }
 
-    private static List<TrashcanResponseDto> convertToTrashcanResponses(List<Trashcan> trashcans) {
+    private List<TrashcanResponseDto> convertToTrashcanResponses(List<Trashcan> trashcans) {
         List<TrashcanResponseDto> trashcanResponseDtos = new ArrayList<>();
         for (Trashcan trashcan : trashcans) {
             trashcanResponseDtos.add(TrashcanResponseDto.from(trashcan));
@@ -89,21 +99,7 @@ public class TrashcanServiceImpl implements TrashcanService {
         return trashcanResponseDtos;
     }
 
-    @Override
-    public TrashcanResponseDto getNearByTrashcans() {
 
-        return null;
-    }
-
-    @Override
-    public TrashcanResponseDto getNearByTrashcans2() {
-        return null;
-    }
-
-    @Override
-    public TrashcanResponseDto getTrashcanByRoadAddress() {
-        return null;
-    }
 
 
     @Transactional

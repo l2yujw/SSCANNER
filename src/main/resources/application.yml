@@ -1,9 +1,15 @@
+elastic:
+  search:
+    uri: ${ELASTIC_URI}
+    username: ${ELASTIC_USERNAME}
+    password: ${ELASTIC_PASSWORD}
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${HOME_URL}
-    username: ${HOME_USERNAME}
-    password: ${HOME_PASSWORD}
+    url: ${RDS_URL}
+    username: ${RDS_USERNAME}
+    password: ${RDS_PASSWORD}
 
   jpa:
     hibernate:
@@ -16,16 +22,20 @@ spring:
         generate_statistics: true
     show-sql: true
 
+
   data:
+    elasticsearch:
+      repositories:
+        enabled: true
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
-      
+
   servlet:
     multipart:
       enabled: true # 멀티파트 업로드 지원여부 (default: true)
         #file-size-threshold: 0B # 파일을 디스크에 저장하지 않고 메모리에 저장하는 최소 크기 (default: 0B)
-        #location: /users/charming/temp # 업로드된 파일이 임시로 저장되는 디스크 위치 (default: WAS가 결정)
+      #location: /users/charming/temp # 업로드된 파일이 임시로 저장되는 디스크 위치 (default: WAS가 결정)
       maxFileSize: 10MB
       maxRequestSize: 30MB
 

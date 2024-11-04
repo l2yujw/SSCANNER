@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.sscanner.team.global.exception.BadRequestException;
+import com.sscanner.team.trashcan.entity.Trashcan;
 import com.sscanner.team.trashcan.entity.TrashcanImg;
 import com.sscanner.team.trashcan.repository.TrashcanImgRepository;
 import lombok.RequiredArgsConstructor;
@@ -108,4 +109,6 @@ public class TrashcanImgServiceImpl implements TrashcanImgService {
         return fileName.substring(lastDotIndex);
     }
 
+
 }
+

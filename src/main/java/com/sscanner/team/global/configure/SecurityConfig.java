@@ -61,6 +61,7 @@ public class SecurityConfig {
                 .cors(withDefaults());
 
         configureFilters(http);
+
         return http.build();
     }
 

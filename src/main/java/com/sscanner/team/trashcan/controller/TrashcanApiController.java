@@ -5,28 +5,30 @@ import com.sscanner.team.global.common.response.ApiResponse;
 import com.sscanner.team.trashcan.requestDto.RegisterTrashcanRequestDto;
 import com.sscanner.team.trashcan.requestDto.UpdateTrashcanRequestDto;
 import com.sscanner.team.trashcan.responseDto.TrashcanResponseDto;
+import com.sscanner.team.trashcan.responseDto.TrashcanSearchResponseDto;
 import com.sscanner.team.trashcan.responseDto.TrashcanWithImgResponseDto;
-import com.sscanner.team.trashcan.service.TrashcanImgService;
+import com.sscanner.team.trashcan.service.TrashcanDocumentService;
+
 import com.sscanner.team.trashcan.service.TrashcanService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/trashcan")
 public class TrashcanApiController {
 
     private final TrashcanService trashcanService;
+    private final TrashcanDocumentService trashcanDocumentService;
 
     @PostMapping()
     public ApiResponse<TrashcanWithImgResponseDto> registerTrashcan(@RequestPart(value = "data") @Valid RegisterTrashcanRequestDto requestDto,
@@ -37,12 +39,20 @@ public class TrashcanApiController {
         return ApiResponse.ok(201, responseDto, "쓰레기통 등록 성공");
     }
 
-    @GetMapping("/{trashcanId}")
+    @GetMapping("/getTrashcan/{trashcanId}")
     public ApiResponse<TrashcanWithImgResponseDto> getTrashcanInfo(@PathVariable Long trashcanId){
 
         TrashcanWithImgResponseDto responseDto = trashcanService.getTrashcanInfo(trashcanId);
 
         return ApiResponse.ok(200, responseDto, "쓰레기통 조회 성공");
+    }
+
+    @GetMapping("/search")
+    public ApiResponse<List<TrashcanSearchResponseDto>> searchTrashcans(@RequestParam String word){
+
+        List<TrashcanSearchResponseDto> responseDtos = trashcanDocumentService.findByRoadNameAddress(word);
+
+        return ApiResponse.ok(200, responseDtos, "쓰레기통 검색 성공");
     }
 
     @GetMapping("/getNearByTrashcans")

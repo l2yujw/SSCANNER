@@ -21,4 +21,6 @@ public interface TrashcanRepository extends JpaRepository<Trashcan, Long> {
             @Param("minLon") BigDecimal minLon,
             @Param("maxLon") BigDecimal maxLon
     );
+
+    List<Trashcan> findAllByDeletedAtIsNull();
 }
