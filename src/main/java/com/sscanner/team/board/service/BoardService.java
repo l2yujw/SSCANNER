@@ -17,12 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface BoardService {
-    BoardResponseDTO createBoard(BoardCreateRequestDTO boardCreateRequestDTO,
+    void createBoard(BoardCreateRequestDTO boardCreateRequestDTO,
                                  List<MultipartFile> files);
     void deleteBoard(Long boardId);
-    BoardResponseDTO updateBoard(Long boardId,
-                                 BoardUpdateRequestDTO boardUpdateRequestDTO,
-                                 List<MultipartFile> files);
+    void updateBoard(Long boardId,
+                     BoardUpdateRequestDTO boardUpdateRequestDTO,
+                     List<MultipartFile> files);
     BoardListResponseDTO getBoardList(BoardCategory boardCategory, TrashCategory trashCategory,
                                          Integer page, Integer size);
     BoardResponseDTO getBoardDetailed(Long boardId);

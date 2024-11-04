@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +48,7 @@ public class BoardServiceImpl implements BoardService{
      */
     @Transactional
     @Override
-    public BoardResponseDTO createBoard(BoardCreateRequestDTO boardCreateRequestDTO,
+    public void createBoard(BoardCreateRequestDTO boardCreateRequestDTO,
                                         List<MultipartFile> files) {
         User user = userUtils.getUser();
 
@@ -58,8 +57,6 @@ public class BoardServiceImpl implements BoardService{
         Board savedBoard = boardRepository.save(board);
 
         List<BoardImg> boardImgs = boardImgService.saveBoardImg(savedBoard.getId(), files);
-
-        return BoardResponseDTO.of(savedBoard, boardImgs);
     }
 
     /**
@@ -87,7 +84,7 @@ public class BoardServiceImpl implements BoardService{
      */
     @Transactional
     @Override
-    public BoardResponseDTO updateBoard(Long boardId,
+    public void updateBoard(Long boardId,
                                            BoardUpdateRequestDTO boardUpdateRequestDTO,
                                            List<MultipartFile> files) {
         User user = userUtils.getUser();
@@ -98,8 +95,6 @@ public class BoardServiceImpl implements BoardService{
         board.updateBoardInfo(boardUpdateRequestDTO);
 
         List<BoardImg> boardImgs = getUpdatedImages(files, boardId);
-
-        return BoardResponseDTO.of(board, boardImgs);
     }
 
     /**
@@ -133,10 +128,10 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public BoardResponseDTO getBoardDetailed(Long boardId) {
         Board board = getBoard(boardId);
-
         List<BoardImg> boardImgs = boardImgService.getBoardImgs(boardId);
 
-        return BoardResponseDTO.of(board, boardImgs);
+        boolean isAuthor = checkAuthor(board.getUser());
+        return BoardResponseDTO.of(board, boardImgs, isAuthor);
     }
 
     /**
@@ -203,5 +198,14 @@ public class BoardServiceImpl implements BoardService{
         } else {
             return boardImgService.updateBoardImgs(boardId, files);
         }
+    }
+
+    private boolean checkAuthor(User author) {
+        User tokenUser = userUtils.getUser();
+
+        if(author.equals(tokenUser)) {
+            return true;
+        }
+        return false;
     }
 }

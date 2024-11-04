@@ -28,16 +28,14 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     @Transactional
-    public CommentResponseDTO saveComment(CommentCreateRequestDTO commentCreateRequestDTO) {
+    public void saveComment(CommentCreateRequestDTO commentCreateRequestDTO) {
         boardService.getBoard(commentCreateRequestDTO.boardId());
 
         User user = userUtils.getUser();
 
         Comment comment = commentCreateRequestDTO.toEntityComment(user);
 
-        commentRepository.save(comment);
-
-        return CommentResponseDTO.from(comment);
+        Comment saveComment = commentRepository.save(comment);
     }
 
     @Override
@@ -56,7 +54,7 @@ public class CommentServiceImpl implements CommentService{
         List<Comment> comments = commentRepository.findAllByBoardId(boardId);
 
         return comments.stream()
-                .map(comment -> CommentResponseDTO.from(comment))
+                .map(comment -> CommentResponseDTO.of(comment, checkAuthor(comment.getUser())))
                 .collect(Collectors.toList());
     }
 
@@ -76,5 +74,14 @@ public class CommentServiceImpl implements CommentService{
         if(!comment.getUser().equals(user)) {
             throw new BadRequestException(MISMATCH_AUTHOR);
         }
+    }
+
+    private boolean checkAuthor(User author) {
+        User tokenUser = userUtils.getUser();
+
+        if(tokenUser.equals(author)) {
+            return true;
+        }
+        return false;
     }
 }

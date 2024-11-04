@@ -18,9 +18,10 @@ public record BoardResponseDTO(
     Long trashcanId,
     TrashCategory trashCategory,
     TrashcanStatus updatedTrashcanStatus,
-    List<BoardImgResponseDTO> boardImgs
+    List<BoardImgResponseDTO> boardImgs,
+    boolean isAuthor
 ) {
-    public static BoardResponseDTO of(Board board, List<BoardImg> boardImgs) {
+    public static BoardResponseDTO of(Board board, List<BoardImg> boardImgs, boolean isAuthor) {
         return new BoardResponseDTO(
                 board.getId(),
                 board.getRoadNameAddress(),
@@ -32,7 +33,8 @@ public record BoardResponseDTO(
                 board.getUpdatedTrashcanStatus(),
                 boardImgs.stream()
                         .map((BoardImg boardImg) -> BoardImgResponseDTO.from(boardImg))
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                isAuthor
         );
     }
 }

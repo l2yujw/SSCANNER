@@ -7,14 +7,16 @@ public record CommentResponseDTO(
         Long id,
         String nickname,
         String authority,
-        String content
+        String content,
+        boolean isAuthor
 ) {
-    public static CommentResponseDTO from(Comment comment) {
+    public static CommentResponseDTO of(Comment comment, boolean isAuthor) {
         return new CommentResponseDTO(
                 comment.getId(),
                 comment.getUser().getNickname(),
                 comment.getUser().getAuthority(),
-                comment.getContent()
+                comment.getContent(),
+                isAuthor
         );
     }
 }

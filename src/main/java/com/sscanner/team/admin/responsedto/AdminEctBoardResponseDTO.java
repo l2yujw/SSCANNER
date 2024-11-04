@@ -3,6 +3,7 @@ package com.sscanner.team.admin.responsedto;
 import com.sscanner.team.board.entity.Board;
 import com.sscanner.team.board.entity.BoardImg;
 import com.sscanner.team.board.responsedto.BoardImgResponseDTO;
+import com.sscanner.team.board.type.ApprovalStatus;
 import com.sscanner.team.board.type.BoardCategory;
 import com.sscanner.team.trashcan.type.TrashCategory;
 import com.sscanner.team.trashcan.type.TrashcanStatus;
@@ -14,7 +15,8 @@ public record AdminEctBoardResponseDTO(
         TrashCategory trashCategory,
         List<BoardImgResponseDTO> images,
         TrashcanStatus trashcanStatus,
-        String significant
+        String significant,
+        ApprovalStatus approvalStatus
 ) {
     public static AdminEctBoardResponseDTO of(Board board, List<BoardImg> boardImgs) {
         return new AdminEctBoardResponseDTO(
@@ -24,7 +26,8 @@ public record AdminEctBoardResponseDTO(
                         .map(boardImg -> BoardImgResponseDTO.from(boardImg))
                         .toList(),
                 board.getUpdatedTrashcanStatus(),
-                board.getSignificant()
+                board.getSignificant(),
+                board.getApprovalStatus()
         );
     }
 }

@@ -25,27 +25,27 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping
-    public ApiResponse<BoardResponseDTO> createAddBoard(@Valid @RequestPart(value = "data") BoardCreateRequestDTO boardCreateRequestDTO,
+    public ApiResponse<Void> createAddBoard(@Valid @RequestPart(value = "data") BoardCreateRequestDTO boardCreateRequestDTO,
                                                         @RequestPart(value = "files") List<MultipartFile> files) {
-        BoardResponseDTO board = boardService.createBoard(boardCreateRequestDTO, files);
+        boardService.createBoard(boardCreateRequestDTO, files);
 
-        return ApiResponse.ok(201, board, "신고 게시글 저장 완료!!");
+        return ApiResponse.ok(201, null, "신고 게시글 저장 완료!!");
     }
 
     @DeleteMapping("/{boardId}")
-    public ApiResponse<?> deleteBoard(@PathVariable Long boardId) {
+    public ApiResponse<Void> deleteBoard(@PathVariable Long boardId) {
         boardService.deleteBoard(boardId);
 
-        return ApiResponse.ok(200, "신고 게시글 삭제 완료!!");
+        return ApiResponse.ok(200, null, "신고 게시글 삭제 완료!!");
     }
 
     @PatchMapping("/{boardId}")
-    public ApiResponse<BoardResponseDTO> updateBoard(@PathVariable Long boardId,
+    public ApiResponse<Void> updateBoard(@PathVariable Long boardId,
                                                      @Valid @RequestPart(value = "data") BoardUpdateRequestDTO boardUpdateRequestDTO,
                                                      @RequestPart(value = "files", required = false) List<MultipartFile> files) {
-        BoardResponseDTO board = boardService.updateBoard(boardId, boardUpdateRequestDTO, files);
+        boardService.updateBoard(boardId, boardUpdateRequestDTO, files);
 
-        return ApiResponse.ok(200, board, "신고 게시글 수정 완료!!");
+        return ApiResponse.ok(200, null, "신고 게시글 수정 완료!!");
     }
 
     @GetMapping

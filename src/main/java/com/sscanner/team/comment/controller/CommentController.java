@@ -18,10 +18,10 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public ApiResponse<CommentResponseDTO> createComment(@Valid @RequestBody CommentCreateRequestDTO commentCreateRequestDTO) {
-        CommentResponseDTO commentInfo = commentService.saveComment(commentCreateRequestDTO);
+    public ApiResponse<Void> createComment(@Valid @RequestBody CommentCreateRequestDTO commentCreateRequestDTO) {
+        commentService.saveComment(commentCreateRequestDTO);
 
-        return ApiResponse.ok(201, commentInfo, "댓글 생성 완료!!");
+        return ApiResponse.ok(201, null,  "댓글 생성 완료!!");
     }
 
     @DeleteMapping("/{commmentId}")
