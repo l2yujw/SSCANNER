@@ -5,7 +5,7 @@ import com.sscanner.team.points.service.PointService;
 import com.sscanner.team.sms.requestdto.SmsVerifyRequestDto;
 import com.sscanner.team.sms.service.SmsService;
 import com.sscanner.team.user.entity.User;
-import com.sscanner.team.global.common.response.ApiResponse;
+import com.sscanner.team.global.common.response.BaseApiResponse;
 import com.sscanner.team.global.exception.BadRequestException;
 import com.sscanner.team.global.exception.DuplicateException;
 import com.sscanner.team.global.exception.ExceptionCode;
@@ -101,11 +101,11 @@ public class UserServiceImpl implements UserService{
 
     // 마이페이지 조회
     @Override
-    public ApiResponse<UserMypageResponseDto> getMypage() {
+    public BaseApiResponse<UserMypageResponseDto> getMypage() {
 
         User user = userUtils.getUser();
         UserMypageResponseDto responseDto = UserMypageResponseDto.create(user);
-        return ApiResponse.ok(responseDto, "마이페이지 조회");
+        return BaseApiResponse.ok(responseDto, "마이페이지 조회");
     }
 
 

@@ -1,7 +1,7 @@
 package com.sscanner.team.auth.service;
 
 import com.sscanner.team.auth.constant.JwtConstants;
-import com.sscanner.team.global.common.response.ApiResponse;
+import com.sscanner.team.global.common.response.BaseApiResponse;
 import com.sscanner.team.global.exception.BadRequestException;
 import com.sscanner.team.global.exception.ExceptionCode;
 import com.sscanner.team.auth.jwt.JWTUtil;
@@ -24,7 +24,7 @@ public class ReissueServiceImpl implements ReissueService {
 
 
     @Override
-    public ApiResponse<RefreshResponseDto> reissueToken(HttpServletRequest request, HttpServletResponse response) {
+    public BaseApiResponse<RefreshResponseDto> reissueToken(HttpServletRequest request, HttpServletResponse response) {
         String refresh = getRefreshTokenFromCookies(request);
 
         validateRefreshCategory(refresh);
@@ -44,7 +44,7 @@ public class ReissueServiceImpl implements ReissueService {
         response.addCookie(createCookie(JwtConstants.REFRESH_TOKEN, newRefresh));
 
         RefreshResponseDto responseDto = RefreshResponseDto.of(newAccess, newRefresh);
-        return ApiResponse.ok(200, responseDto, "토큰 재발급 성공");
+        return BaseApiResponse.ok(200, responseDto, "토큰 재발급 성공");
     }
 
     private  String getRefreshTokenFromCookies(HttpServletRequest request) {

@@ -1,20 +1,18 @@
 package com.sscanner.team.global.configure.aop;
 
-import com.sscanner.team.global.common.response.ApiResponse;
+import com.sscanner.team.global.common.response.BaseApiResponse;
 import com.sscanner.team.global.exception.BadRequestException;
 import com.sscanner.team.global.exception.DuplicateException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -40,7 +38,7 @@ public class HttpLoggingAspect {
 
     // 메서드 호출 후 정상적으로 반환된 경우 로그 남기기
     @AfterReturning(pointcut = "pointCut()", returning = "response")
-    public void logAfterReturning(JoinPoint joinPoint, ApiResponse<?> response) {
+    public void logAfterReturning(JoinPoint joinPoint, BaseApiResponse<?> response) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         log.info("HTTP Response: Path={} ResponseCode={} ResponseMessage={} ResponseData=\"{}\""
                 , request.getRequestURI(), response.getCode(), response.getMessage(), response.getData());

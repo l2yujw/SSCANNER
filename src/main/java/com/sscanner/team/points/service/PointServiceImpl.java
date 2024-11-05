@@ -147,6 +147,7 @@ public class PointServiceImpl implements PointService {
     }
 
     private void updateRedisPoints(String userId, Integer point) {
+        log.error(" testests" + point);
         pointRedisService.incrementPoint(userId, point);
         pointRedisService.incrementDailyPoint(userId, point);
     }

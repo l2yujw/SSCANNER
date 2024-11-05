@@ -72,7 +72,11 @@ coolsms:
     secret: "${COOLSMS_API_SECRET}"
     number: "${COOLSMS_PHONE_NUMBER}"
 
-
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
 
 # 프로메테우스
 management:
