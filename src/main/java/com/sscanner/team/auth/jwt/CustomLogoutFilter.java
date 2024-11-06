@@ -107,7 +107,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
         cookie.setMaxAge(0);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setSecure(true); //HTTPS 통신 시만 전송
+    //  cookie.setSecure(true); //HTTPS 통신 시만 전송
 
         response.addCookie(cookie);
     }
