@@ -6,7 +6,6 @@
 <br>
 <br>
 <br>
-<br>
 
 ## 🗑️ SCANNER를 소개합니다.
 
